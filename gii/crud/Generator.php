@@ -350,7 +350,7 @@ class Generator extends \yii\gii\Generator
 				foreach ($tabs as $tab)
 				{
 					if ($tab) {			
-						$sf .= ($sf == ""?"/*, ":", ").$tab."Id";
+						$sf .= ($sf == ""?"/*, '":", '").$tab."Id'";
 					}					
 				}     					
 				$sf .= ($sf == ""?"":"*/");
