@@ -13,7 +13,8 @@ echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
-use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
+use yii\helpers\ArrayHelper;
+use <?= $generator->indexWidgetType === 'grid' ? "amilna\\yap\\GridView" : "yii\\widgets\\ListView" ?>;
 
 /* @var $this yii\web\View */
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
@@ -28,16 +29,61 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php if(!empty($generator->searchModelClass)): ?>
 <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php endif; ?>
-
+<?php
+	$title = Inflector::camel2words(StringHelper::basename($generator->modelClass));
+?>
     <p>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create {modelClass}', ['modelClass' => Inflector::camel2words(StringHelper::basename($generator->modelClass))]) ?>, ['create'], ['class' => 'btn btn-success']) ?>
+        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create {modelClass}', ['modelClass' => $title]) ?>, ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
     <?= "<?= " ?>GridView::widget([
         'dataProvider' => $dataProvider,
+        
+        'containerOptions' => ['style'=>'overflow: auto'], // only set when $responsive = false		
+		'caption'=><?= $generator->generateString($title) ?>,
+		'headerRowOptions'=>['class'=>'kartik-sheet-style','style'=>'background-color: #fdfdfd'],
+		'filterRowOptions'=>['class'=>'kartik-sheet-style skip-export','style'=>'background-color: #fdfdfd'],
+		'pjax' => false,
+		'bordered' => true,
+		'striped' => true,
+		'condensed' => true,
+		'responsive' => true,
+		'hover' => true,
+		'showPageSummary' => true,
+		'pageSummaryRowOptions'=>['class'=>'kv-page-summary','style'=>'background-color: #fdfdfd'],
+		
+		'panel' => [
+			'type' => GridView::TYPE_DEFAULT,
+			'heading' => false,
+		],
+		'toolbar' => [
+			['content'=>				
+				Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], ['data-pjax'=>false, 'class' => 'btn btn-default', 'title'=><?= $generator->generateString('Reset Grid') ?>])
+			],
+			'{export}',
+			'{toggleData}'
+		],
+		'beforeHeader'=>[
+			[
+				/* uncomment to use additional header
+				'columns'=>[
+					['content'=>'Group 1', 'options'=>['colspan'=>6, 'class'=>'text-center','style'=>'background-color: #fdfdfd']], 
+					['content'=>'Group 2', 'options'=>['colspan'=>6, 'class'=>'text-center','style'=>'background-color: #fdfdfd']], 					
+				],
+				*/
+				'options'=>['class'=>'skip-export'] // remove this row from export
+			]
+		],
+		'floatHeader' => true,		
+		
+		/* uncomment to use megeer some columns
+        'mergeColumns' => ['Column 1','Column 2','Column 3'],
+        'type'=>'firstrow', // or use 'simple'
+        */
+        
         <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
 
 <?php
 $count = 0;
@@ -53,6 +99,8 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
     foreach ($tableSchema->columns as $column) {
         $format = $generator->generateColumnFormat($column);
         if (++$count < 6) {
+            //print_r($column);
+            //die();
             echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
         } else {
             echo "            // '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
@@ -61,7 +109,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 }
 ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'kartik\grid\ActionColumn'],
         ],
     ]); ?>
 <?php else: ?>

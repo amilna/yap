@@ -440,9 +440,11 @@ class Generator extends \yii\gii\Generator
             }
         }
 
+		$numConditions = [];
         $likeConditions = [];
         $hashConditions = [];
         $timeConditions = [];
+        $nf = [];
         $hf = [];
         $tf = [];
         $lf = [];
@@ -455,15 +457,17 @@ class Generator extends \yii\gii\Generator
 					switch ($type) {
 						case Schema::TYPE_SMALLINT:
 						case Schema::TYPE_INTEGER:
-						case Schema::TYPE_BIGINT:
-						case Schema::TYPE_BOOLEAN:
+						case Schema::TYPE_BIGINT:						
 						case Schema::TYPE_FLOAT:
 						case Schema::TYPE_DECIMAL:
 						case Schema::TYPE_MONEY:
+							$numConditions[] = "['{$column}'".($tab?",'{{%{$tab}}}'":"")."]";
+							break;
+						case Schema::TYPE_BOOLEAN:
 						case Schema::TYPE_DATE:
 						case Schema::TYPE_TIME:
 						case Schema::TYPE_DATETIME:
-							$hashConditions[] = "['{$column}'".($tab?",'{{%{$tab}}}'":"")."]";
+							$hashConditions[] = "'{$column}'".($tab?",'{{%{$tab}}}'":"")." => \$this->{$column},";
 							break;
 						case Schema::TYPE_TIMESTAMP:
 							$timeConditions[] = "['{$column}'".($tab?",'{{%{$tab}}}'":"")."]";
@@ -476,7 +480,8 @@ class Generator extends \yii\gii\Generator
 			}
 			else
 			{
-				$hf[] = "['id'".($tab?",'{{%{$tab}}}'":"")."]";	
+				$nf[] = "['id'".($tab?",'{{%{$tab}}}'":"")."]";	
+				$hf[] = "'id'".($tab?",'{{%{$tab}}}'":"")." => \$this->".$tab."Id,";
 				$tf[] = "['id'".($tab?",'{{%{$tab}}}'":"")."]";	
 				$lf[] = "['id'".($tab?",'{{%{$tab}}}'":"")."]";	
 			}
@@ -484,7 +489,13 @@ class Generator extends \yii\gii\Generator
 		
         $conditions = [];
         if (!empty($hashConditions)) {
-            $conditions[] = "\$params = self::queryNumber([".implode(",",$hashConditions)."".(count($hf) == 0?"":"/*".implode(",",$hf)."*/")."]);
+            $conditions[] = "\$query->andFilterWhere([\n"
+                . str_repeat(' ', 12) . implode("\n" . str_repeat(' ', 12), $hashConditions)."\n"
+                . str_repeat(' ', 12) .'/*'. implode("\n" . str_repeat(' ', 12), $nf).'*/'
+                . "\n" . str_repeat(' ', 8) . "]);\n";
+        }
+        if (!empty($numConditions)) {
+            $conditions[] = "\$params = self::queryNumber([".implode(",",$numConditions)."".(count($hf) == 0?"":"/*".implode(",",$nf)."*/")."]);
 		foreach (\$params as \$p)
 		{
 			\$query->andFilterWhere(\$p);

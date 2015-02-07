@@ -153,7 +153,18 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
     {
         $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
         
-        $query->joinWith([/*<?= implode(",", $relations) ?>*/]);
+        <?php
+			$joins = "";
+			foreach ($relations as $tab)
+			{
+				if (!empty($tab))
+				{
+					$joins .= ($joins == ""?"":", ")."'".$tab."'";
+				}
+			}	
+        ?>
+        
+        $query->joinWith([/*<?= $joins ?>*/]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
