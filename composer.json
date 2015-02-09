@@ -12,11 +12,18 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-	"kartik-v/yii2-grid": "*"
+	"kartik-v/yii2-grid": "*",
+	"amilna/yii2-sequence-widget": "*",
     },
     "autoload": {
         "psr-4": {
             "amilna\\yap\\": ""
         }
-    }
+    },
+    "repositories":[
+		{
+			"type": "git",
+			"url": "https://github.com/amilna/yii2-sequence-widget"
+		},"
+   ]
 }
