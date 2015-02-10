@@ -22,7 +22,9 @@ or add
 to the require section of your `composer.json` file.
 
 Available widgets:
+
 1. GridView, a grid view that groups rows by any column(s). Combination of [2amigos/GroupGridView](https://github.com/2amigos/yii2-grid-view-library/blob/master/GroupGridView.php) and [kartik-v/yii2-grid](https://github.com/kartik-v/yii2-grid)
+
 2. SequenceJs, a widget to renders a [Sequence JS](http://sequencejs.com). More information see [amilna/yii2-sequence-widget](https://github.com/amilna/yii2-sequence-widget)
 
 
