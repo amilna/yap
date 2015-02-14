@@ -37,11 +37,19 @@ use kartik\datetime\DateTimePicker;
 
 <?php foreach ($generator->getColumnNames() as $attribute) {
     if (in_array($attribute, $safeAttributes)) {
-        echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
+		echo "	<div class='row'>\n";
+		echo "		<div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>\n";							
+        echo "			<?= " . $generator->generateActiveField($attribute) . " ?>\n";        
+        echo "		</div>\n";
+        echo "	</div>\n\n";
     }
 } ?>
-    <div class="form-group">
-        <?= "<?= " ?>Html::submitButton($model->isNewRecord ? <?= $generator->generateString('Create') ?> : <?= $generator->generateString('Update') ?>, ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	<div class='row'>
+		<div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
+			<div class="form-group">
+				<?= "<?= " ?>Html::submitButton($model->isNewRecord ? <?= $generator->generateString('Create') ?> : <?= $generator->generateString('Update') ?>, ['class' => $model->isNewRecord ? 'btn btn-success pull-right' : 'btn btn-primary pull-right']) ?>
+			</div>
+		</div>
     </div>
 
     <?= "<?php " ?>ActiveForm::end(); ?>
