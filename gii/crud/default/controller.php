@@ -66,7 +66,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
 <?php if (!empty($generator->searchModelClass)): ?>
         $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();        
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams+($term?['<?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>'=>[$arraymap=>$term]]:[]));
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams+($term?['<?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>'=>['search'=>$term]]:[]));
 
         if ($format == 'json')
         {
@@ -77,7 +77,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 				if ($arraymap)
 				{
 					$map = explode(",",$arraymap);
-					if (count($map) == 1 || $term)
+					if (count($map) == 1)
 					{
 						$obj = $d[$arraymap];
 					}
@@ -88,7 +88,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 						{
 							$k = explode(":",$a);						
 							$v = (count($k) > 1?$k[1]:$k[0]);
-							$obj[$k[0]] = (isset($d[$v])?$d[$v]:null);
+							$obj[$k[0]] = ($v == "Obj"?json_encode($d->attributes):(isset($d[$v])?$d[$v]:null));
 						}
 					}
 				}
