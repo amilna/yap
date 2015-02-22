@@ -71,14 +71,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
             <?= "'$name' => " . $generator->generateString($label) . ",\n" ?>
 <?php endforeach; ?>
         ];
-    }
-	
-	/* uncomment to undisplay deleted records (assumed the table has column isdel)
-	public static function find()
-	{
-		return parent::find()->where(['<?= $generator->generateTableName($tableName) ?>.isdel' => 0]);
-	}
-	*/
+    }	
     
 	public function itemAlias($list,$item = false,$bykey = false)
 	{
