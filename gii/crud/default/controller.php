@@ -66,7 +66,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
 <?php if (!empty($generator->searchModelClass)): ?>
         $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();        
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams+($term?['<?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>'=>['search'=>$term]]:[]));
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams+($term?['<?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>'=>['term'=>$term]]:[]));
 
         if ($format == 'json')
         {

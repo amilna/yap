@@ -210,12 +210,12 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
         <?= implode("\n        ", $searchConditions) ?>
 		
 		/* example to use search all in field1,field2,field3 or field4
-		if ($this->search)
+		if ($this->term)
 		{
-			$query->andFilterWhere(["OR","lower(field1) like '%".strtolower($this->search)."%'",
-				["OR","lower(field2) like '%".strtolower($this->search)."%'",
-					["OR","lower(field3) like '%".strtolower($this->search)."%'",
-						"lower(field4) like '%".strtolower($this->search)."%'"						
+			$query->andFilterWhere(["OR","lower(field1) like '%".strtolower($this->term)."%'",
+				["OR","lower(field2) like '%".strtolower($this->term)."%'",
+					["OR","lower(field3) like '%".strtolower($this->term)."%'",
+						"lower(field4) like '%".strtolower($this->term)."%'"						
 					]
 				]
 			]);	
