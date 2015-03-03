@@ -47,24 +47,25 @@ class DualListBox extends InputWidget
 
         $this->attributes = $this->model->attributes();
 
-        $data = ($this->data) ? $this->data->asArray()->all() : [];
+        $data = ($this->data) ? $this->data->asArray()->all() : [];               
 
         echo '<div id="'.$inputId.'" >';
 
         $ret_sel = '';
         $ret = '<select style="display: none;" multiple = "multiple">';
         $cnt = 0;
-        foreach ($data as $key => $value) {
-
+        foreach ($data as $key => $value) {			
+                        
             if (!in_array($value[$this->data_id], $selected)) {
                 $ret .= '<option value="' . $value[$this->data_id] . '">' . $value[$this->data_value] . '</option>' . "\n";
         } else {
+			
                 $cnt++;
                 $ret_sel .= '$("#dlb-'.$this->attribute.' .selected").
                 append("<option value=' . $value[$this->data_id] . '>' . $value[$this->data_value] . '</option>");';
             }
 
-        }
+        }        
         $ret .= '</select>';
 
         $lng_opt = new Json();
