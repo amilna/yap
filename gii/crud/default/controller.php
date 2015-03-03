@@ -65,8 +65,10 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionIndex($format= false,$arraymap= false,$term = false)
     {
 <?php if (!empty($generator->searchModelClass)): ?>
-        $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();        
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams+($term?['<?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>'=>['term'=>$term]]:[]));
+        $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();                
+        $req = Yii::$app->request->queryParams;
+        if ($term) { $req[basename(str_replace("\\","/",get_class($searchModel)))]["term"] = $term;}        
+        $dataProvider = $searchModel->search($req);	
 
         if ($format == 'json')
         {
