@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover' => true,
 		'showPageSummary' => true,
 		'pageSummaryRowOptions'=>['class'=>'kv-page-summary','style'=>'background-color: #fdfdfd'],
-		'tableOptions'=>["style"=>"margin-bottom:100px;"],
+		'tableOptions'=>["style"=>"margin-bottom:50px;"],
 		'panel' => [
 			'type' => GridView::TYPE_DEFAULT,
 			'heading' => false,
