@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	$title = Inflector::camel2words(StringHelper::basename($generator->modelClass));
 ?>
     <p>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create {modelClass}', ['modelClass' => $title]) ?>, ['create'], ['class' => 'btn btn-success']) ?>
+        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create {modelClass}', ['modelClass' => $generator->generateString($title)]) ?>, ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
