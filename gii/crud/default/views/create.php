@@ -15,7 +15,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 
-$this->title = <?= $generator->generateString('Create {modelClass}', ['modelClass' => $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass)))]) ?>;
+<?php
+	$modelClass = $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass)));	
+?>
+$this->title = <?= str_replace(["'Yii::","\\'",")'"],["Yii::","'",")"],$generator->generateString('Create {modelClass}', ['modelClass' => $modelClass])) ?>;
 $this->params['breadcrumbs'][] = ['label' => <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

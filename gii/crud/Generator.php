@@ -461,7 +461,7 @@ class Generator extends \yii\gii\Generator
 						case Schema::TYPE_FLOAT:
 						case Schema::TYPE_DECIMAL:
 						case Schema::TYPE_MONEY:
-							$numConditions[] = "['{$column}'".($tab?",'{{%{$tab}}}'":"")."]";
+							$numConditions[] = "['{$column}'".($column == "id"?",\$this->tableName()":"")."]";
 							break;
 						case Schema::TYPE_BOOLEAN:
 						case Schema::TYPE_DATE:

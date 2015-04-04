@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php if(!empty($generator->searchModelClass)): ?>
 <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php endif; ?>
+
 <?php
-	$title = Inflector::camel2words(StringHelper::basename($generator->modelClass));
+	$modelClass = $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass)));	
 ?>
+
     <p>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create {modelClass}', ['modelClass' => $generator->generateString($title)]) ?>, ['create'], ['class' => 'btn btn-success']) ?>
+        <?= "<?= " ?>Html::a(<?= str_replace(["'Yii::","\\'",")'"],["Yii::","'",")"],$generator->generateString('Create {modelClass}', ['modelClass' => $modelClass])) ?>, ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
@@ -41,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         
         'containerOptions' => ['style'=>'overflow: auto'], // only set when $responsive = false		
-		'caption'=><?= $generator->generateString($title) ?>,
+		'caption'=><?= $modelClass ?>,
 		'headerRowOptions'=>['class'=>'kartik-sheet-style','style'=>'background-color: #fdfdfd'],
 		'filterRowOptions'=>['class'=>'kartik-sheet-style skip-export','style'=>'background-color: #fdfdfd'],
 		'pjax' => false,
