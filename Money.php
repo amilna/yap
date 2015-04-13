@@ -14,14 +14,16 @@ use amilna\yap\MoneyAsset;
 class Money extends InputWidget
 {
     public $name;
-    public $value;
+    public $value = 0;
     public $pluginOptions = [
 			 "radixPoint"=>".", 
 			 "groupSeparator"=> ",", 
 			 "digits"=> 2,
 			 "autoGroup"=> true,
 			 "prefix"=> ''
-		 ];    
+		 ];
+		 
+	public $pluginEvents = [];	     
 		 
 	private $_displayOptions = [];	 
 
@@ -37,6 +39,17 @@ class Money extends InputWidget
         }
         
         $this->registerAssets();
+        
+        if ($this->hasModel())
+        {
+			$model = $this->model;
+			$atr = $this->attribute;
+			if (empty($model->$atr))
+			{
+				$model->$atr = 0;	
+			}			
+			$this->value = $model->$atr;
+		}
                 
         $input = Html::textInput($this->name, $this->value, $this->_displayOptions);
         $input .= $this->hasModel() ?
@@ -60,7 +73,7 @@ class Money extends InputWidget
 		
 		$ts = $this->pluginOptions["groupSeparator"];		
 		$ds = $this->pluginOptions["radixPoint"];
-		$ps = $this->pluginOptions["prefix"];
+		$ps = $this->pluginOptions["prefix"];				
 		
         $js = <<<SCRIPT
            $("#$modelId-disp").inputmask("decimal",$options);
@@ -68,10 +81,19 @@ class Money extends InputWidget
 				var val = parseFloat($("#$modelId-disp").val().replace("$ps","").replace(/\\$ts/g,"").replace(/\\$ds/g,"."));
 				val = (isNaN(val)?0:val);				
 				$("#$modelId").val(val);				
-		   });	 
+		   });			    
 SCRIPT;
 
         $view->registerJs($js);
+        
+        foreach ($this->pluginEvents as $en=>$ev)
+		{
+		$js = '           
+		   $("#'.$modelId.'-disp").'.$en.'('.$ev.');
+		';
+		$view->registerJs($js);
+		
+		}
 
     }
 
