@@ -75,25 +75,31 @@ class Money extends InputWidget
 		$ds = $this->pluginOptions["radixPoint"];
 		$ps = $this->pluginOptions["prefix"];				
 		
+		$js2= "";
+		$evs = "";
+		foreach ($this->pluginEvents as $en=>$ev)
+		{
+			$js2 .= '           
+			   $("#'.$modelId.'").'.$en.'('.$ev.');
+			';
+			$evs .= '$("#'.$modelId.'").trigger("'.$en.'");';		
+		}
+		
         $js = <<<SCRIPT
            $("#$modelId-disp").inputmask("decimal",$options);
 		   $("#$modelId-disp").change(function(){
 				var val = parseFloat($("#$modelId-disp").val().replace("$ps","").replace(/\\$ts/g,"").replace(/\\$ds/g,"."));
 				val = (isNaN(val)?0:val);				
-				$("#$modelId").val(val);				
+				$("#$modelId").val(val);
+				$evs
 		   });			    
 SCRIPT;
-
+		
+		$view->registerJs($js2);
         $view->registerJs($js);
         
-        foreach ($this->pluginEvents as $en=>$ev)
-		{
-		$js = '           
-		   $("#'.$modelId.'-disp").'.$en.'('.$ev.');
-		';
-		$view->registerJs($js);
-		
-		}
+        
+        
 
     }
 
