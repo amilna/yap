@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\jui\AutoComplete;
-use kartik\money\MaskMoney;
+use amilna\yap\Money;
 use kartik\widgets\Select2;
 use kartik\widgets\SwitchInput;
 use kartik\datetime\DateTimePicker;

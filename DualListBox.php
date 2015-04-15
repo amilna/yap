@@ -48,7 +48,10 @@ class DualListBox extends InputWidget
         $this->attributes = $this->model->attributes();
 
         $data = ($this->data) ? $this->data->asArray()->all() : [];               
-
+		
+		$css = "button.str {margin-bottom:10px!important;}";
+		$view->registerCss($css);
+		
         echo '<div id="'.$inputId.'" >';
 
         $ret_sel = '';
