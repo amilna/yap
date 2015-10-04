@@ -14,6 +14,7 @@
         "yiisoft/yii2": "*",
 	"kartik-v/yii2-grid": "*",
 	"amilna/yii2-sequence-widget": "*",
+	"amilna/yii2-nivo-slider": "*",
 	"maksyutin/yii2-dual-list-box": "dev-master"
     },    
     "autoload": {
