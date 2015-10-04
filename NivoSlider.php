@@ -33,7 +33,7 @@ namespace amilna\yap;
  *
  * @author Amilna
  * @see https://github.com/gilbitron/Nivo-Slider
- * @package amilna\sequencejs
+ * @package amilna\nivoslider
  */
  
 class NivoSlider extends \amilna\nivoslider\NivoSlider
