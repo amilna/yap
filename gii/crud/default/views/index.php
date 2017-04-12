@@ -32,39 +32,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 	$modelClass = $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass)));	
-?>
-
-    <p>
-        <?= "<?= " ?>Html::a(<?= str_replace(["'Yii::","\\'",")'"],["Yii::","'",")"],$generator->generateString('Create {modelClass}', ['modelClass' => $modelClass])) ?>, ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+?>    
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
     <?= "<?= " ?>GridView::widget([
         'dataProvider' => $dataProvider,
         
         'containerOptions' => ['style'=>'overflow: auto'], // only set when $responsive = false		
-		'caption'=><?= $modelClass ?>,
+		//'caption'=><?= $modelClass ?>,
 		'headerRowOptions'=>['class'=>'kartik-sheet-style','style'=>'background-color: #fdfdfd'],
 		'filterRowOptions'=>['class'=>'kartik-sheet-style skip-export','style'=>'background-color: #fdfdfd'],
-		'pjax' => false,
+		'pjax' => true,
 		'bordered' => true,
 		'striped' => true,
 		'condensed' => true,
 		'responsive' => true,
+		'responsiveWrap' => false,
 		'hover' => true,
 		'showPageSummary' => true,
 		'pageSummaryRowOptions'=>['class'=>'kv-page-summary','style'=>'background-color: #fdfdfd'],
-		'tableOptions'=>["style"=>"margin-bottom:100px;"],
+		'tableOptions'=>["style"=>"margin-bottom:100px;"],				
 		'panel' => [
 			'type' => GridView::TYPE_DEFAULT,
-			'heading' => false,
-		],
+			'heading' => '<i class="glyphicon glyphicon-th-list"></i>  '.<?= $modelClass ?>,			
+			'before'=>Html::a(
+					'<i class="glyphicon glyphicon-plus"></i> '.<?= $modelClass ?>,
+					['create'], 
+					[	'class' => 'btn btn-success', 
+						'title'=><?= str_replace(["'Yii::","\\'",")'"],["Yii::","'",")"],$generator->generateString('Create {modelClass}', ['modelClass' => $modelClass])) ?>
+					]
+				).' <em style="margin:10px;"><small>'.Yii::t('app', 'Type in column input below to filter, or click column title to sort').'</small></em>',
+		],				
 		'toolbar' => [
 			['content'=>				
 				Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], ['data-pjax'=>false, 'class' => 'btn btn-default', 'title'=><?= $generator->generateString('Reset Grid') ?>])
 			],
 			'{export}',
-			'{toggleData}'
+			//'{toggleData}'
 		],
 		'beforeHeader'=>[
 			[
@@ -78,6 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			]
 		],
 		'floatHeader' => true,		
+		'floatHeaderOptions'=>['position'=>'absolute','top'=>50],		
 		
 		/* uncomment to use megeer some columns
         'mergeColumns' => ['Column 1','Column 2','Column 3'],

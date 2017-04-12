@@ -10,24 +10,18 @@ namespace amilna\yap;
 use Yii;
 use yii\web\AssetBundle;
 
-class MoneyAsset extends AssetBundle
+class BeautifyAsset extends AssetBundle
 {
     public $sourcePath = '@amilna/yap/assets';
 	
 	public $publishOptions = [
         'forceCopy' => YII_DEBUG,
     ];
-	
-    public $depends = [
-        'yii\web\JqueryAsset',
-    ];
 
     public function init()
     {
         parent::init();
 
-        $this->js[] = 'js/jquery.inputmask.js';               
-        $this->js[] = 'js/jquery.inputmask.numeric.extensions.js';               
-        $this->js[] = 'js/jquery.inputmask.date.extensions.js';               
+        $this->js[] = 'js/beautify.min.js';               
     }    
 }

@@ -15,4 +15,26 @@ class Helpers extends Component
 	{		
 		return str_replace([";","&"], '', $string);		
 	}
+	
+	public static function zipCreate($source,$destination) {
+		$zip = new \amilna\yap\yZip();
+		if (is_array($source))
+		{
+			$zip->zipFiles($source, $destination);	
+		}
+		else
+		{
+			$zip->zipDir($source, $destination);	
+		}
+		
+		return file_exists($destination);
+	}
+	
+	public static function zipExtract($source, $destination)
+    {
+		$zip = new \amilna\yap\yZip();
+		$zip->unzip($source, $destination);
+		
+		return file_exists($destination);
+	}
 }
