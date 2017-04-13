@@ -37,4 +37,13 @@ class Helpers extends Component
 		
 		return file_exists($destination);
 	}
+	
+	public static function removeDirectory($path) {
+		$files = glob($path . '/*');
+		foreach ($files as $file) {
+			is_dir($file) ? removeDirectory($file) : unlink($file);
+		}
+		rmdir($path);
+		return;
+	}
 }
